@@ -1,0 +1,18 @@
+[
+    {
+        "id": 1
+        , "name": "New"
+    }
+    , {
+        "id": 2
+        , "name": "Pending"
+    }
+    , {
+        "id": 3
+        , "name": "Postpone"
+    }
+    , {
+        "id": 4
+        , "name": "Done"
+    }
+]

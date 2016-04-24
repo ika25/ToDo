@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title></title>
+
+    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+    <link href="css/ionic.app.css" rel="stylesheet">
+    -->
+
+    <!-- ionic/angularjs js -->
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+
+    <!-- cordova script (this will be a 404 during development) -->
+    <script src="cordova.js"></script>
+
+    <!-- your app's js -->
+    <script src="js/app.js"></script>
+</head>
+
+
+<body ng-app="starter">
+
+    <ion-pane ng-controller="ToDoListCtrl" ng-init="init()">
+        <ion-header-bar class="bar bar-header bar-positive">
+            <h1 class="title">To Do List</h1>
+            <!-- New Task button-->
+            <button class="button button-clear" ng-click="openNewTaskWindow()">
+                New task
+            </button>
+        </ion-header-bar>
+        <ion-content>
+
+            <label class="item item-input item-floating-label negative-left-margin" style="margin-bottom:25px">
+                <input type="search" placeholder="Search" ng-model="searchText">
+            </label>
+            <div ng-repeat="itemStatus in statuses" class="negative-top-bottom-margin">
+                <div ng-hide="(filterTaskByStatus(itemStatus.name)| filter:{title:searchText}).length==0" class="{{itemStatus.name}}-pane list card">
+                    <div class="item item-divider positive">
+                        {{itemStatus.name}} ({{filterTaskByStatus(itemStatus.name).length}})
+                    </div>
+                    <div class="item item-body">
+                        <ion-list>
+                            <ion-item class="item-icon-right" ng-repeat="item in filterTaskByStatus(itemStatus.name) | filter:{title:searchText}">
+
+
+                                <label class="item item-input item-select">
+                                    <div class="task-title negative-left-margin">
+                                        {{item.title}}
+                                    </div>
+                                    <select class="task-status" ng-change="updateStatus(item.id,item.status)" ng-model="item.status">
+                                        <option ng-selected="status.name==item.status" ng-repeat="status in statuses" value="{{status.name}}">
+                                            {{status.name}}
+                                        </option>
+                                    </select>
+                                </label>
+                                <ion-button class="button-assertive icon ion-trash-a" ng-click="deleteTask(item.id)"></ion-button>
+                            </ion-item>
+                        </ion-list>
+                    </div>
+                </div>
+            </div>
+
+
+        </ion-content>
+        <ion-footer-bar>
+        </ion-footer-bar>
+
+    </ion-pane>
+
+    <!-- Modal for create task-->
+    <script id="new-task-modal.html" type="text/ng-template">
+        <ion-modal-view>
+            <ion-header-bar class="bar-dark">
+                <h1 class="title">Create a new Task</h1>
+                <button class="button button-icon" ng-click="closeNewTaskWindow()">
+                    <i class="icon ion-android-close"></i>
+                </button>
+            </ion-header-bar>
+            <ion-content>
+                <form ng-submit="addNewTaskWindow(task)" name="taskEditForm">
+                    <div class="list list-inset">
+                        <label class="item item-input">
+                            <input ng-model="task.title" type="text" placeholder="Task title" required>
+                        </label>
+
+                        <label class="item item-input item-select">
+                            <div class="input-label">
+                                Task status
+                            </div>
+
+
+                            <select required ng-model="task.status">
+                                <option ng-selected="status.name=='New'" ng-repeat="status in statuses" value="{{status.name}}">
+                                    {{status.name}}
+                                </option>
+                            </select>
+                        </label>
+                        <button ng-disabled="!!taskEditForm.$error.required" type="submit" class="button button-block button-positive">Create Task</button>
+                    </div>
+                </form>
+            </ion-content>
+        </ion-modal-view>
+    </script>
+
+</body>
+
+</html>

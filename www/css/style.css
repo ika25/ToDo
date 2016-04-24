@@ -1,0 +1,30 @@
+.Pending-pane {}
+
+.Done-pane {
+    opacity: 0.6;
+}
+
+.New-pane {}
+
+.Postpone-pane {}
+
+.task-title {
+    white-space: normal;
+    width: 80%;
+}
+
+.task-status {
+    width: 10px;
+}
+
+.list {
+    margin: -10px;
+}
+
+.negative-left-margin {
+    margin-left: -10px;
+}
+
+.negative-top-bottom-margin {
+    margin: -30px 0px -30px 0px;
+}
